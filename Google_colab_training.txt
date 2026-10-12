@@ -1,0 +1,57 @@
+!pip install ultralytics
+
+from ultralytics import YOLO
+
+from google.colab import drive
+drive.mount('/content/drive')
+
+!pip install -q rarfile
+!apt-get install -y unrar
+
+import rarfile
+
+with rarfile.RarFile('/content/drive/MyDrive/yolo/vehicle_dataset.rar') as rf:
+    rf.extractall('/content/drive/MyDrive/yolo/vehicle_dataset')
+
+import torch
+print("CUDA available:", torch.cuda.is_available())
+print("Device name:", torch.cuda.get_device_name(0) if torch.cuda.is_available() else "None")
+
+yaml_content = """path: /content/drive/MyDrive/yolo/vehicle_dataset/vehicle_dataset
+train: train/images
+val: val/images
+
+names:
+  0: motorcycle
+  1: bicycle
+  2: person
+  3: car
+  4: van
+  5: tractor
+  6: tractor_with_trailer
+  7: truck
+  8: mini_truck
+  9: bus
+  10: mini_bus
+  11: microbus
+  12: utility_vehicle
+  13: autorickshaw
+"""
+
+with open('/content/drive/MyDrive/yolo/vehicle_dataset/vehicle_dataset/data.yaml', 'w') as f:
+    f.write(yaml_content)
+
+model = YOLO("yolo11n.pt")
+model.train(data="/content/drive/MyDrive/yolo/vehicle_dataset/vehicle_dataset/data.yaml", epochs=100, imgsz=640, device=0)
+
+!nvidia-smi
+
+import os
+for root, dirs, files_ in os.walk('/content/runs'):
+    for f in files_:
+        print(os.path.join(root, f))
+
+from google.colab import files
+files.download('/content/runs/detect/train-3/weights/best.pt')
+
+
