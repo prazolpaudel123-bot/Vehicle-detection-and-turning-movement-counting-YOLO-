@@ -1,0 +1,19 @@
+path: L:\Softwares\VS Code\Files\YOLO\vehicle_dataset
+train: train/images
+val: val/images
+
+names:
+  0: motorcycle
+  1: bicycle
+  2: pedestrian
+  3: car
+  4: van
+  5: tractor
+  6: tractor_with_trailer
+  7: truck
+  8: mini_truck
+  9: bus
+  10: mini_bus
+  11: microbus
+  12: utility_vehicle
+  13: autorickshaw

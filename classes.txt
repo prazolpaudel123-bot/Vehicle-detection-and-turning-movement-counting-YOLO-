@@ -1,0 +1,14 @@
+motorcycle
+bicycle
+pedestrian
+car
+van
+tractor
+tractor_with_trailer
+truck
+mini_truck
+bus
+mini_bus
+microbus
+utility_vehicle
+autorickshaw
